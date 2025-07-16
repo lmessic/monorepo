@@ -18,7 +18,12 @@ module.exports = function (isDev) {
 			// 构建前删除一下dist，webpack4没有，4中对应的是clean-webpack-plugin，webpack5内置
 			clean: true,
 			// 打包后的公共路径
-			publicPath: "/",
+			publicPath:
+				process.env.DEPLOY_ENV === "prod"
+					? "/app-react/"
+					: process.env.DEPLOY_ENV === "staging"
+						? "/staging-app-react/"
+						: "/",
 			environment: {
 				// 箭头函数
 				arrowFunction: false,

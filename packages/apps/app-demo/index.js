@@ -1,0 +1,1 @@
+import { getRandom } from "@lmessic/component";

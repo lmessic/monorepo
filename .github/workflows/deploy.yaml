@@ -38,5 +38,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/apps/app-react/build
-          destination_dir: app-react # GH Pages 中的子目录
+          publish_dir: packages/apps/app-react/dist
+          destination_dir: app-react # 部署到 gh-pages 的 app-react 子目录
+          keep_files: true # 保留其他项目的部署

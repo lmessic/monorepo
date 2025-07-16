@@ -1,10 +1,10 @@
 const path = require("path");
+const webpack = require("webpack");
 // 生产环境处理css
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FileListPlugin = require("../plugins/fileList");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-
 module.exports = function (isDev) {
 	return {
 		// 1. 输入输出部分
@@ -18,12 +18,7 @@ module.exports = function (isDev) {
 			// 构建前删除一下dist，webpack4没有，4中对应的是clean-webpack-plugin，webpack5内置
 			clean: true,
 			// 打包后的公共路径
-			publicPath:
-				process.env.DEPLOY_ENV === "prod"
-					? "/app-react/"
-					: process.env.DEPLOY_ENV === "staging"
-						? "/staging-app-react/"
-						: "/",
+			publicPath: process.env.NODE_ENV === "production" ? "/monorepo/app-react/" : "/",
 			environment: {
 				// 箭头函数
 				arrowFunction: false,
@@ -134,6 +129,9 @@ module.exports = function (isDev) {
 			// 	fileName: "fileList.md",
 			// }),
 			// new BundleAnalyzerPlugin(),
+			new webpack.DefinePlugin({
+				"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development"),
+			}),
 		],
 	};
 };

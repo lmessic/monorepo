@@ -1,34 +1,42 @@
-name: Build and Deploy
+name: Deploy React Subapp
+
 on:
   push:
-    branches: [gp-pages]
-    path:
-      - "packages/apps/app-react"
+    branches:
+      - gp-pages
+    paths:
+      - "packages/apps/app-react/**"
+
 jobs:
-  runs-on: ubuntu-lasted
-  permissions:
-    contents: write
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.9.0
-        cache: "pnpm"
-    - name: Install dependencies
-      run: |
-        npm i -g pnpm
-        cd packages/apps/app-react
-        pnpm install
-        pnpm run build:prd
-    - name: Build subproject
-      run: pnpm --filter app-react build #构建子项目
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-    - name: Deploy to GH Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./packages/apps/app-react/build
-        destination_dir: app-react # GH Pages 中的子目录
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: packages/apps/app-react
+
+      - name: Build production
+        run: |
+          DEPLOY_ENV=prod pnpm build
+        working-directory: packages/apps/app-react
+
+      - name: Deploy to GH Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/apps/app-react/build
+          destination_dir: app-react # GH Pages 中的子目录

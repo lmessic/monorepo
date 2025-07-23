@@ -11,11 +11,11 @@ export const tabs = [
 class MyClass {
 	private _name: string;
 	constructor() {
-		this._name = 'zhangsan';
+		this._name = "zhangsan";
 	}
 
-	get name () {
-		return this._name
+	get name() {
+		return this._name;
 	}
 	set name(val) {
 		this._name = val;
@@ -23,9 +23,6 @@ class MyClass {
 }
 
 const Tabs: React.FC = () => {
-	const c = new MyClass();
-	console.log(c)
-	console.log(c.name)
 	return (
 		<div>
 			<div className="py-5">
@@ -36,7 +33,7 @@ const Tabs: React.FC = () => {
 							to={item.path}
 							className={({ isActive }) =>
 								"whitespace-nowrap p-4 px-6 text-base transition-all " +
-								(isActive ? "text-blue-600 font-bold " : "text-black hover:text-blue-900")
+								(isActive ? "text-text font-bold " : "text-black hover:text-blue-900")
 							}
 						>
 							{item.name}

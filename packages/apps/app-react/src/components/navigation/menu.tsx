@@ -9,7 +9,7 @@ interface NavMenu {
 const NavMenu: React.FC<NavMenu> = ({ menus }) => {
 	const location = useLocation();
 
-  // 有子路径时也选中当前
+	// 有子路径时也选中当前
 	const getParentPath = () => {
 		let res;
 		menus.forEach((item) => {
@@ -32,7 +32,7 @@ const NavMenu: React.FC<NavMenu> = ({ menus }) => {
 							return (
 								"hover:text-black mx-4 h-full py-3 transition-all" +
 								(isActive || getParentPath() === item.path
-									? "font-extrabold text-black border-b-4 border-blue-600"
+									? "font-extrabold text-text border-b-4 border-border"
 									: "text-slate-500")
 							);
 						}}

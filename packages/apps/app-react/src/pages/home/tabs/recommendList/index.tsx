@@ -7,7 +7,7 @@ import {
 	PaperAirplaneIcon,
 	StarIcon,
 } from "@heroicons/react/24/solid";
-import { getMockList } from "../../../../api/server";
+// import { getMockList } from "../../../../api/server";
 
 const moreIcon = (
 	<svg
@@ -52,7 +52,7 @@ const disAgreeIcon = (
 );
 
 const moreMenu = () => (
-	<div className="w-44 bg-white shadow-lg p-2 border absolute right-0 top-10 translate-x-1/2 cursor-pointer">
+	<div className="w-44 shadow-lg p-2 border absolute right-0 top-10 translate-x-1/2 cursor-pointer">
 		<div
 			style={{
 				width: 0,
@@ -74,18 +74,17 @@ const moreMenu = () => (
 
 // 封装无限滚动逻辑，封装hooks
 const useRefIntersecOb = (fn: (boo: boolean) => void, ref: RefObject<HTMLDivElement>) => {
-
 	useEffect(() => {
-		let interOb = new IntersectionObserver((entries) =>{ 
+		let interOb = new IntersectionObserver((entries) => {
 			fn(entries[0].isIntersecting);
 		});
 		ref.current && interOb.observe(ref.current);
 
 		return () => {
 			ref.current && interOb.unobserve(ref.current);
-		}
-	}, [])
-}
+		};
+	}, []);
+};
 
 const RecommendList: React.FC = () => {
 	const [visible, setVisible] = useState<boolean>(false);
@@ -98,11 +97,11 @@ const RecommendList: React.FC = () => {
 	const loadingRef = useRef<HTMLDivElement>(null);
 
 	const getData = async () => {
-		const res: any = await getMockList("api/feed", {
-			startNum: 0,
-			pageSize: 10,
-		});
-		setList(res.list);
+		// const res: any = await getMockList("api/feed", {
+		// 	startNum: 0,
+		// 	pageSize: 10,
+		// });
+		// setList(res.list);
 	};
 	const handleClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>, id: string) => {
 		e.stopPropagation();
@@ -116,20 +115,20 @@ const RecommendList: React.FC = () => {
 
 	useRefIntersecOb((boo: boolean) => {
 		if (boo) {
-			getMockList("api/feed", {
-				startNum: list.length,
-				pageSize: list.length + 10,
-			}).then((res: any) => {
-				listRef.current = [...listRef.current, ...res.list];
-				setList(listRef.current);
-			});
+			// getMockList("api/feed", {
+			// 	startNum: list.length,
+			// 	pageSize: list.length + 10,
+			// }).then((res: any) => {
+			// 	listRef.current = [...listRef.current, ...res.list];
+			// 	setList(listRef.current);
+			// });
 		}
-	}, loadingRef)
+	}, loadingRef);
 
 	useEffect(() => {
 		// getData();
 
-		// let interOb = new IntersectionObserver((entries) =>{ 
+		// let interOb = new IntersectionObserver((entries) =>{
 		// 	if (entries[0].isIntersecting) {
 		// 		getMockList("api/feed", {
 		// 			startNum: list.length,
@@ -143,7 +142,6 @@ const RecommendList: React.FC = () => {
 		// })
 
 		// loadingRef.current && interOb.observe(loadingRef.current);
-
 
 		window.addEventListener("click", hideMenu);
 		return () => {
@@ -175,7 +173,7 @@ const RecommendList: React.FC = () => {
 									</span>
 								)}
 							</div>
-							<div className="flex pt-3 bottom-0 sticky bg-white">
+							<div className="flex pt-3 bottom-0 sticky">
 								<div>
 									<button className="inline-flex items-center px-3 bg-blue-100 text-blue-600 rounded h-8 justify-center text-xs">
 										<div className="mr-2">{agreeIcon}</div>

@@ -9,15 +9,15 @@ const Home: React.FC = () => {
 
 	useEffect(() => {
 		const sectionOb = new IntersectionObserver((entries) => {
-			setTabHidden(entries[0].isIntersecting)
+			setTabHidden(entries[0].isIntersecting);
 		});
 		sectionOb.observe(sectionRef.current!);
-	}, [])
+	}, []);
 	return (
 		<div>
 			<Navigation tabVisible={tabVisible} />
 			<div className="mx-auto max-w-5xl flex my-2 px-2">
-				<Card className="w-5/7">
+				<Card className="w-5/7 h-full">
 					<div ref={sectionRef}></div>
 					<Tabs />
 				</Card>
